@@ -1,0 +1,26 @@
+name: Deploy dev
+
+on:
+  push:
+    branches-ignore:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+environment: dev
+
+jobs:
+  deploy-dev:
+    name: Development deployment placeholder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deployment policy
+        run: |
+          echo "Dev deploys are allowed for non-main branches and manual dispatch."
+          echo "Use synthetic or disposable data only."
+          echo "Add real deployment commands when app infrastructure exists."
