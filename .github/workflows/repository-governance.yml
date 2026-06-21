@@ -1,0 +1,51 @@
+name: Repository governance
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  structure-check:
+    name: Required structure check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate agent-loop structure
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required_files=(
+            "README.md"
+            "AGENTS.md"
+            "docs/README.md"
+            "docs/operating-model.md"
+            "docs/product/user-journeys.md"
+            "docs/product/acceptance-criteria.md"
+            "docs/architecture/system-overview.md"
+            "docs/engineering/testing-strategy.md"
+            "docs/engineering/release-process.md"
+            "docs/engineering/security-standards.md"
+            "docs/engineering/cost-standards.md"
+            "agents/README.md"
+            "agents/loops/pr-review-loop.md"
+            "agents/loops/nightly-regression-loop.md"
+            "tests/e2e/README.md"
+            "infra/terraform/README.md"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [[ ! -f "$file" ]]; then
+              echo "Missing required file: $file"
+              exit 1
+            fi
+          done
+
+          echo "Repository governance structure is present."
