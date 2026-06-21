@@ -1,0 +1,25 @@
+name: Deploy stg
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+environment: stg
+
+jobs:
+  stg:
+    name: Stg placeholder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Policy
+        run: |
+          echo "Stg runs from main."
+          echo "Add smoke and regression steps when app infrastructure exists."

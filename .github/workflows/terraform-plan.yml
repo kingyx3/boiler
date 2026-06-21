@@ -1,0 +1,22 @@
+name: Terraform plan
+
+on:
+  pull_request:
+    paths:
+      - "infra/terraform/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-plan:
+    name: Terraform validation placeholder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Placeholder
+        run: |
+          echo "Add terraform fmt, validate, and plan once Terraform configuration is introduced."

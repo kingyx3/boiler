@@ -1,0 +1,99 @@
+name: Repository governance
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  structure-check:
+    name: Required structure check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate agent-loop structure
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required_files=(
+            "README.md"
+            "AGENTS.md"
+            "apps/README.md"
+            "apps/web/README.md"
+            "apps/api/README.md"
+            "apps/worker/README.md"
+            "packages/README.md"
+            "packages/shared-types/README.md"
+            "packages/ui/README.md"
+            "packages/test-utils/README.md"
+            "infra/terraform/README.md"
+            "infra/terraform/modules/README.md"
+            "infra/terraform/envs/dev/README.md"
+            "infra/terraform/envs/staging/README.md"
+            "infra/terraform/envs/prod/README.md"
+            "tests/e2e/README.md"
+            "tests/integration/README.md"
+            "tests/contract/README.md"
+            "tests/fixtures/README.md"
+            "docs/README.md"
+            "docs/operating-model.md"
+            "docs/product/prd/README.md"
+            "docs/product/user-journeys.md"
+            "docs/product/acceptance-criteria.md"
+            "docs/architecture/system-overview.md"
+            "docs/architecture/adr/0001-repo-first-agent-loop-operating-model.md"
+            "docs/engineering/coding-standards.md"
+            "docs/engineering/testing-strategy.md"
+            "docs/engineering/release-process.md"
+            "docs/engineering/environment-strategy.md"
+            "docs/engineering/security-standards.md"
+            "docs/engineering/cost-standards.md"
+            "docs/runbooks/deploy.md"
+            "docs/runbooks/rollback.md"
+            "docs/runbooks/incident-response.md"
+            "agents/README.md"
+            "agents/AGENTS.md"
+            "agents/roles/planner.md"
+            "agents/roles/builder.md"
+            "agents/roles/reviewer.md"
+            "agents/roles/backend-reviewer.md"
+            "agents/roles/frontend-reviewer.md"
+            "agents/roles/security-reviewer.md"
+            "agents/roles/infra-cost-reviewer.md"
+            "agents/roles/e2e-test-reviewer.md"
+            "agents/roles/docs-reviewer.md"
+            "agents/loops/pr-review-loop.md"
+            "agents/loops/nightly-regression-loop.md"
+            "agents/loops/weekly-cost-security-loop.md"
+            "agents/loops/docs-freshness-loop.md"
+            "agents/loops/release-readiness-loop.md"
+            "agents/loops/product-quality-loop.md"
+            "agents/loops/incident-loop.md"
+            ".github/pull_request_template.md"
+            ".github/CODEOWNERS"
+            ".github/workflows/ci.yml"
+            ".github/workflows/e2e.yml"
+            ".github/workflows/terraform-plan.yml"
+            ".github/workflows/security.yml"
+            ".github/workflows/nightly-regression.yml"
+            ".github/workflows/deploy-dev.yml"
+            ".github/workflows/deploy-stg.yml"
+            ".github/workflows/deploy-prd.yml"
+            ".github/workflows/repository-governance.yml"
+          )
+
+          for file in "${required_files[@]}"; do
+            if [[ ! -f "$file" ]]; then
+              echo "Missing required file: $file"
+              exit 1
+            fi
+          done
+
+          echo "Repository governance structure is present."
