@@ -52,6 +52,7 @@ jobs:
             "docs/engineering/coding-standards.md"
             "docs/engineering/testing-strategy.md"
             "docs/engineering/release-process.md"
+            "docs/engineering/environment-strategy.md"
             "docs/engineering/security-standards.md"
             "docs/engineering/cost-standards.md"
             "docs/runbooks/deploy.md"
@@ -82,6 +83,9 @@ jobs:
             ".github/workflows/terraform-plan.yml"
             ".github/workflows/security.yml"
             ".github/workflows/nightly-regression.yml"
+            ".github/workflows/deploy-dev.yml"
+            ".github/workflows/deploy-stg.yml"
+            ".github/workflows/deploy-prd.yml"
             ".github/workflows/repository-governance.yml"
           )
 
