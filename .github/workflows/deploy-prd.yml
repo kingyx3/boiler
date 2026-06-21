@@ -1,0 +1,25 @@
+name: Deploy prd
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+environment: prd
+
+jobs:
+  prd:
+    name: Prd placeholder
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Policy
+        run: |
+          echo "Prd runs from release events or approved manual dispatch."
+          echo "Add production smoke steps when app infrastructure exists."
