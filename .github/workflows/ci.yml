@@ -17,6 +17,51 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create environment files
+        env:
+          # Variables (non-sensitive) — set these in GitHub repository Variables
+          NODE_ENV: ${{ vars.NODE_ENV }}
+          API_PORT: ${{ vars.API_PORT }}
+          WEB_PORT: ${{ vars.WEB_PORT }}
+          API_URL: ${{ vars.API_URL }}
+          APP_URL: ${{ vars.APP_URL }}
+          CORS_ORIGIN: ${{ vars.CORS_ORIGIN }}
+          JWT_EXPIRES_IN: ${{ vars.JWT_EXPIRES_IN }}
+          LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+          WORKER_CONCURRENCY: ${{ vars.WORKER_CONCURRENCY }}
+          # Secrets (sensitive) — set these in GitHub repository Secrets
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
+        run: |
+          # apps/api/.env
+          cat > apps/api/.env <<EOF
+          NODE_ENV=${NODE_ENV}
+          PORT=${API_PORT}
+          DATABASE_URL=${DATABASE_URL}
+          JWT_SECRET=${JWT_SECRET}
+          JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+          CORS_ORIGIN=${CORS_ORIGIN}
+          LOG_LEVEL=${LOG_LEVEL}
+          EOF
+
+          # apps/web/.env
+          cat > apps/web/.env <<EOF
+          NODE_ENV=${NODE_ENV}
+          PORT=${WEB_PORT}
+          API_URL=${API_URL}
+          APP_URL=${APP_URL}
+          EOF
+
+          # apps/worker/.env
+          cat > apps/worker/.env <<EOF
+          NODE_ENV=${NODE_ENV}
+          DATABASE_URL=${DATABASE_URL}
+          REDIS_URL=${REDIS_URL}
+          WORKER_CONCURRENCY=${WORKER_CONCURRENCY}
+          LOG_LEVEL=${LOG_LEVEL}
+          EOF
+
       - name: Placeholder
         run: |
           echo "Add install, lint, typecheck, and unit test commands when app code is introduced."
